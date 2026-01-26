@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>จัดการเมนู</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>➕ เพิ่มเมนูสินค้า</h2>
+
+<div class="add-product" style="margin:20px;">
+  <input id="pname" placeholder="ชื่อเมนู">
+  <input id="pprice" type="number" placeholder="ราคา">
+  <input type="file" id="pimg" accept="image/*">
+  <button onclick="addProduct()">บันทึกเมนู</button>
+</div>
+
+<div style="padding:20px;">
+  <button onclick="location.href='index.html'">⬅️ กลับหน้าขาย</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

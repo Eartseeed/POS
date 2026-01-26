@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Kitchen</title>
+</head>
+<body>
+
+<h2>หน้าจอครัว</h2>
+<ul id="list"></ul>
+
+<script>
+function load() {
+  fetch('/orders')
+    .then(r => r.json())
+    .then(data => {
+      let html = '';
+      data.forEach(o => {
+        html += `<li>${o.time} - ${o.item} (${o.price} บาท)</li>`;
+      });
+      document.getElementById('list').innerHTML = html;
+    });
+}
+
+setInterval(load, 1000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+/* ===== PRINT RECEIPT 80mm ===== */
+
+@page{
+  size: 80mm auto;
+  margin: 0;
+}
+
+.print-area{
+  display:none;
+  width:80mm;
+  padding:5mm;
+  font-size:12px;
+  font-family: Arial, sans-serif;
+}
+
+.print-logo{
+  display:block;
+  margin:0 auto 5px;
+  max-width:50mm;
+}
+
+.print-area h3{
+  text-align:center;
+  margin:3px 0;
+  font-size:14px;
+}
+
+.print-divider{
+  border-top:1px dashed #000;
+  margin:5px 0;
+}
+
+.print-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.print-table td{
+  font-size:12px;
+  padding:2px 0;
+}
+
+.print-total{
+  text-align:right;
+  font-weight:bold;
+  margin-top:5px;
+  font-size:13px;
+}
+
+/* ===== Print Mode ===== */
+@media print{
+  body *{
+    visibility:hidden;
+  }
+
+  .print-area,
+  .print-area *{
+    visibility:visible;
+  }
+
+  .print-area{
+    position:absolute;
+    left:0;
+    top:0;
+  }
+}

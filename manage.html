@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>จัดการเมนู</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>⚙️ ຈັດການເມນູ</h2>
+
+<!-- แถบควบคุม -->
+<div style="padding:12px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+  <button onclick="location.href='index.html'">⬅ ກັບໄປໜ້າຂາຍ</button>
+
+  <div style="background:white;padding:8px 12px;border-radius:8px;">
+    💱 ປັບເລດເງີນ:
+    1 บาท =
+    <input id="rateInput" type="number" style="width:90px;"> ກີບ
+    <button onclick="saveRate()">ບັນທຶກ</button>
+  </div>
+</div>
+
+<div class="menu" id="manageMenu"></div>
+
+<script>
+/* ==========================
+   โหลดเรทเงิน (default 680)
+========================== */
+let RATE_KIP = parseFloat(localStorage.getItem("RATE_KIP")) || 680;
+document.getElementById("rateInput").value = RATE_KIP;
+
+let products = JSON.parse(localStorage.getItem("products") || "[]");
+
+/* ==========================
+   แสดงรายการเมนู
+========================== */
+function renderManage(){
+  const box = document.getElementById("manageMenu");
+  box.innerHTML = "";
+
+  products.forEach((p,index)=>{
+    const kip = p.price * RATE_KIP;
+
+    box.innerHTML += `
+      <div class="item">
+
+        <div class="photo">
+          <img src="${p.img}">
+        </div>
+
+        <!-- เปลี่ยนรูป -->
+        <input type="file" accept="image/*"
+          onchange="changeImage(${index}, this)"
+          style="margin:6px 0; font-size:12px;">
+
+        <!-- แก้ชื่อ -->
+        <b contenteditable="true"
+           onblur="update(${index}, 'name', this.innerText)">
+           ${p.name}
+        </b>
+
+        <!-- แก้ราคา -->
+        <div contenteditable="true"
+             onblur="update(${index}, 'price', this.innerText)">
+          💰 ${p.price} บาท
+        </div>
+
+        <!-- แสดงกีบ -->
+        <small style="color:#555;">
+          ≈ ${kip.toLocaleString()} ກີບ
+        </small>
+
+        <!-- ลบ -->
+        <button onclick="removeProduct(${index})"
+          style="margin-top:auto;
+                 background:#ef4444;
+                 color:white;
+                 border:none;
+                 padding:6px;
+                 border-radius:6px;
+                 cursor:pointer;">
+          🗑 ລົບເມນູ
+        </button>
+
+      </div>
+    `;
+  });
+}
+
+/* ==========================
+   บันทึกเรทเงิน
+========================== */
+function saveRate(){
+  const val = parseFloat(document.getElementById("rateInput").value);
+  if(val <= 0){
+    alert("กรุณาใส่เรทที่ถูกต้อง");
+    return;
+  }
+
+  RATE_KIP = val;
+  localStorage.setItem("RATE_KIP", RATE_KIP);
+  renderManage();
+}
+
+/* ==========================
+   แก้ชื่อ / ราคา
+========================== */
+function update(index, key, value){
+  if(key === "price") {
+    value = parseFloat(value.replace(/[^\d]/g,'')) || 0;
+  }
+
+  products[index][key] = value;
+  save();
+  renderManage();
+}
+
+/* ==========================
+   เปลี่ยนรูป
+========================== */
+function changeImage(index, input){
+  const file = input.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    products[index].img = e.target.result;
+    save();
+    renderManage();
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ==========================
+   ลบเมนู
+========================== */
+function removeProduct(index){
+  if(!confirm("ຕ້ອງການລົບເມນູນີ້ບໍ?")) return;
+
+  products.splice(index,1);
+  save();
+  renderManage();
+}
+
+/* ==========================
+   บันทึก
+========================== */
+function save(){
+  localStorage.setItem("products", JSON.stringify(products));
+}
+
+/* ==========================
+   เริ่มต้น
+========================== */
+renderManage();
+</script>
+
+</body>
+</html>

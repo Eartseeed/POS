@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>POS ร้านอาหาร</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="print.css">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#22c55e">
+</head>
+
+<body>
+
+<h2>🧾 POS ร้านอาหาร</h2>
+
+<!-- MEMBER -->
+<div class="member-box">
+  <input id="memberName" placeholder="ชื่อลูกค้า">
+  <input id="memberPhone" placeholder="เบอร์โทร">
+  <input id="discount" type="number" placeholder="ส่วนลด %" value="0">
+</div>
+
+<div class="app">
+
+  <!-- LEFT -->
+  <div>
+    <div class="menu" id="menu"></div>
+
+    <div class="actions">
+      <button class="manage-btn" onclick="location.href='add-product.html'">➕ จัดการเมนู</button>
+      <button class="manage-btn" onclick="location.href='manage.html'">⚙️ จัดการเมนู</button>
+      <button class="report-btn" onclick="location.href='report.html'">📊 รายงาน</button>
+      <button class="print" onclick="printCustomer()">พิมพ์ลูกค้า</button>
+      <button class="kitchen" onclick="printKitchen()">พิมพ์ครัว</button>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div id="receipt">
+    <center>
+      <img src="logo.png" class="logo">
+      <b>ร้านอาหารของฉัน</b><br>
+      โทร: 020-xxxxxxx
+    </center>
+
+    <hr>
+    <div id="time"></div>
+    <hr>
+    <div id="items"></div>
+    <hr>
+    <b id="total">รวม: 0 บาท</b>
+  </div>
+
+</div>
+
+<!-- PRINT AREA -->
+<div id="printArea" class="print-area">
+  <h3>ร้านอาหารของฉัน</h3>
+  <div id="printDate"></div>
+
+  <hr>
+
+  <table class="print-table">
+    <tbody id="printItems"></tbody>
+  </table>
+
+  <hr>
+
+  <div class="print-total">
+    รวมทั้งหมด: <span id="printTotal"></span>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script src="print.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+</body>
+</html>

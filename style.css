@@ -1,0 +1,277 @@
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#f1f5f9;
+  font-family:"Segoe UI",sans-serif;
+}
+
+h2{
+  margin:0;
+  padding:14px;
+  background:#1e293b;
+  color:white;
+  text-align:center;
+}
+
+/* MEMBER */
+.member-box{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  padding:10px;
+  background:white;
+}
+
+/* ADD PRODUCT */
+.add-product{
+  display:grid;
+  grid-template-columns:2fr 1fr 2fr 1fr;
+  gap:8px;
+  padding:10px;
+  margin:10px;
+  background:white;
+  border-radius:8px;
+}
+
+.add-product input{
+  padding:8px;
+}
+
+.add-product button{
+  background:#22c55e;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* LAYOUT */
+.app{
+  display:grid;
+  grid-template-columns:1fr 340px;
+  gap:10px;
+  padding:10px;
+}
+
+/* ================= MENU ================= */
+
+.menu{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  gap:12px;
+}
+
+/* ✅ บังคับการ์ดสูงเท่ากัน */
+.item{
+  background:white;
+  border-radius:12px;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  height:260px;               /* <<< ความสูงเท่ากันทุกใบ */
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+/* พื้นที่รูป */
+.photo{
+  position:relative;
+  height:140px;              /* <<< รูปสูงเท่ากัน */
+  flex-shrink:0;
+}
+
+.photo img{
+  width:100%;
+  height:100%;
+  object-fit:contain;        /* ไม่ยืด ไม่แตก */
+  border-radius:8px;
+}
+
+/* ปุ่ม + - */
+.controls{
+  position:absolute;
+  right:6px;
+  bottom:6px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.controls button{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:6px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.plus{background:#22c55e;}
+.minus{background:#ef4444;}
+
+/* ชื่อสินค้า */
+.item b{
+  margin-top:6px;
+  font-size:15px;
+  text-align:center;
+  min-height:40px;           /* <<< ล็อคความสูงชื่อ */
+  overflow:hidden;
+}
+
+/* ราคา */
+.item .price{
+  text-align:center;
+  font-size:14px;
+}
+
+/* ราคาเงินกีบ */
+.item .kip{
+  font-size:12px;
+  color:#64748b;
+  text-align:center;
+}
+
+/* ================= ACTIONS ================= */
+
+.actions{
+  margin-top:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+
+.actions button{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.print{background:#2563eb;}
+.kitchen{background:#f97316;}
+.report-btn{background:#16a34a;}
+.manage-btn{
+  background: linear-gradient(135deg,#8b5cf6,#6366f1);
+}
+
+/* ================= RECEIPT ================= */
+
+#receipt{
+  background:white;
+  border-radius:12px;
+  padding:12px;
+}
+
+.logo{
+  width:100px;
+}
+/* ================= Manage ================= */
+.danger {
+  background:red;
+  color:white;
+  border:none;
+  padding:5px 10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+/**********************
+ REPORT PAGE STYLE
+**********************/
+
+.report-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+  padding:12px;
+  background:white;
+  border-radius:10px;
+  margin:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.filter{
+  display:flex;
+  flex-direction:column;
+  font-size:12px;
+}
+
+.filter input{
+  padding:6px 10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+/* BUTTON */
+.btn{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.btn:hover{
+  opacity:0.9;
+  transform:translateY(-1px);
+}
+
+.btn.back{
+  background:#334155;
+  color:white;
+}
+
+.btn.primary{
+  background:#2563eb;
+  color:white;
+}
+
+.btn.success{
+  background:#16a34a;
+  color:white;
+}
+
+/* REPORT TABLE */
+.report-box{
+  background:white;
+  margin:12px;
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.report-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.report-table th{
+  background:#f1f5f9;
+  text-align:left;
+  padding:10px;
+  font-size:14px;
+}
+
+.report-table td{
+  padding:10px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+.report-table tr:hover{
+  background:#f8fafc;
+}
+
+.report-total{
+  text-align:right;
+  margin-top:12px;
+  font-weight:bold;
+  font-size:16px;
+  color:#0f172a;
+}

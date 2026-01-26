@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>รายงานยอดขาย</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>📊 รายงานยอดขาย</h2>
+
+<!-- TOOLBAR -->
+<div class="report-toolbar">
+
+  <button class="btn back" onclick="location.href='index.html'">
+    ⬅ กลับหน้าขาย
+  </button>
+
+  <div class="filter">
+    <label>เลือกวันที่</label>
+    <input type="date" id="datePick">
+  </div>
+
+  <button class="btn primary" onclick="loadReport()">📂 ดูรายงาน</button>
+  <button class="btn success" onclick="exportCSV()">📥 Export Excel</button>
+
+</div>
+
+<!-- TABLE -->
+<div class="report-box">
+  <table class="report-table">
+    <thead>
+      <tr>
+        <th>วันที่ / เวลา</th>
+        <th>ยอดขาย (บาท)</th>
+      </tr>
+    </thead>
+    <tbody id="report"></tbody>
+  </table>
+
+  <div class="report-total" id="reportTotal"></div>
+</div>
+
+<script>
+let sales = JSON.parse(localStorage.getItem("sales") || "[]");
+
+function loadReport(){
+  const date = datePick.value;
+  let total = 0;
+  let html = "";
+
+  if(!date){
+    alert("กรุณาเลือกวันที่ก่อน");
+    return;
+  }
+
+  const list = sales.filter(s => s.date.startsWith(date));
+
+  if(list.length === 0){
+    report.innerHTML = `<tr><td colspan="2" style="text-align:center;">ไม่มีข้อมูล</td></tr>`;
+    reportTotal.innerHTML = "";
+    return;
+  }
+
+  list.forEach(s => {
+    total += s.total;
+    html += `
+      <tr>
+        <td>${s.date}</td>
+        <td>${s.total.toLocaleString()}</td>
+      </tr>
+    `;
+  });
+
+  report.innerHTML = html;
+  reportTotal.innerHTML = `รวมทั้งวัน: ${total.toLocaleString()} บาท`;
+}
+
+function exportCSV(){
+  if(sales.length === 0){
+    alert("ยังไม่มีข้อมูลขาย");
+    return;
+  }
+
+  let csv = "Date,Total(THB)\n";
+  sales.forEach(s=>{
+    csv += `${s.date},${s.total}\n`;
+  });
+
+  const blob = new Blob([csv],{type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sales.csv";
+  a.click();
+}
+</script>
+
+</body>
+</html>
