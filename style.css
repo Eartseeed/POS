@@ -56,11 +56,13 @@ h2{
   padding:10px;
 }
 
-/* ================= MENU ================= */
+/* =========================
+   MENU GRID : 8 ITEMS / ROW
+========================= */
 
 .menu{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+  grid-template-columns:repeat(8, 1fr);   /* ✅ 8 เมนูต่อแถว */
   gap:12px;
 }
 
@@ -274,4 +276,33 @@ h2{
   font-weight:bold;
   font-size:16px;
   color:#0f172a;
+}
+/* =========================
+   ACTION BUTTON SIZE FIX
+========================= */
+
+/* ให้ panel ขวากว้างเต็ม */
+.right-panel{
+  width:100%;
+}
+
+/* Grid ปุ่ม */
+.actions-grid{
+  width:100%;
+  display:grid;
+  grid-template-columns:1fr 1fr;   /* 2 ปุ่มต่อแถว */
+  gap:12px;
+}
+
+/* ขนาดปุ่มให้ใหญ่เท่ากัน */
+.actions-grid button{
+  width:100%;
+  height:60px;                     /* ✅ ปรับความสูง */
+  font-size:16px;                  /* ✅ ตัวอักษรใหญ่ขึ้น */
+  border-radius:12px;
+}
+
+/* ไม่ต้องให้ปุ่มสุดท้ายเต็มแถว */
+.actions-grid button:last-child{
+  grid-column:auto;
 }

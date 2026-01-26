@@ -1,66 +1,73 @@
-/* ===== PRINT RECEIPT 80mm ===== */
+/* =========================
+   PRINT RECEIPT 80mm
+========================= */
 
-@page{
+@page {
   size: 80mm auto;
-  margin: 0;
+  margin: 5mm;
 }
 
-.print-area{
-  display:none;
-  width:80mm;
-  padding:5mm;
-  font-size:12px;
-  font-family: Arial, sans-serif;
+.print-area {
+  display: none;
+  width: 72mm;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  color: black;
 }
 
-.print-logo{
-  display:block;
-  margin:0 auto 5px;
-  max-width:50mm;
+/* โลโก้ */
+.print-logo {
+  display: block;
+  margin: 0 auto 5px;
+  width: 50mm;
 }
 
-.print-area h3{
-  text-align:center;
-  margin:3px 0;
-  font-size:14px;
+/* เส้นคั่น */
+.print-divider {
+  border-top: 1px dashed #000;
+  margin: 6px 0;
 }
 
-.print-divider{
-  border-top:1px dashed #000;
-  margin:5px 0;
+/* ตาราง */
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.print-table{
-  width:100%;
-  border-collapse:collapse;
+.print-table td {
+  padding: 2px 0;
+  font-size: 12px;
 }
 
-.print-table td{
-  font-size:12px;
-  padding:2px 0;
+/* รวมเงิน */
+.print-total {
+  text-align: right;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
-.print-total{
-  text-align:right;
-  font-weight:bold;
-  margin-top:5px;
-  font-size:13px;
-}
+/* =========================
+   PRINT MODE
+========================= */
+@media print {
 
-/* ===== Print Mode ===== */
-@media print{
-  body *{
-    visibility:hidden;
+  body {
+    margin: 0;
   }
 
-  .print-area,
-  .print-area *{
-    visibility:visible;
+  body * {
+    visibility: hidden;
   }
 
-  .print-area{
-    position:absolute;
-    left:0;
-    top:0;
+  #printArea,
+  #printArea * {
+    visibility: visible;
+  }
+
+  #printArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
   }
 }

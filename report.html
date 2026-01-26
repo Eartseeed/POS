@@ -2,26 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>รายงานยอดขาย</title>
+<title>ລາຍງານຍອດຂາຍ</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>📊 รายงานยอดขาย</h2>
+<h2>📊 ລາຍງານຍອດຂາຍ</h2>
 
 <!-- TOOLBAR -->
 <div class="report-toolbar">
 
   <button class="btn back" onclick="location.href='index.html'">
-    ⬅ กลับหน้าขาย
+    ⬅ ກັບໄປໜ້າຂາຍ
   </button>
 
   <div class="filter">
-    <label>เลือกวันที่</label>
+    <label>ເລືອກວັນທີ</label>
     <input type="date" id="datePick">
   </div>
 
-  <button class="btn primary" onclick="loadReport()">📂 ดูรายงาน</button>
+  <button class="btn primary" onclick="loadReport()">📂 ເບີ່ງລາຍງານ</button>
   <button class="btn success" onclick="exportCSV()">📥 Export Excel</button>
 
 </div>
@@ -31,8 +31,8 @@
   <table class="report-table">
     <thead>
       <tr>
-        <th>วันที่ / เวลา</th>
-        <th>ยอดขาย (บาท)</th>
+        <th>ວັນທີ / ເວລາ</th>
+        <th>ຍອດຂາຍ</th>
       </tr>
     </thead>
     <tbody id="report"></tbody>
@@ -44,9 +44,21 @@
 <script>
 let sales = JSON.parse(localStorage.getItem("sales") || "[]");
 
+/* =====================
+   CONFIG ค่าเงิน
+===================== */
+const RATE_KIP = 680;   // ✅ 1 บาท = 680 กีบ (ปรับได้)
+
+/* แปลงเงินบาท → กีบ */
+function toKip(thb){
+  return Math.round(thb * RATE_KIP);
+}
+
+/* โหลดรายงาน */
 function loadReport(){
   const date = datePick.value;
-  let total = 0;
+  let totalTHB = 0;
+  let totalKIP = 0;
   let html = "";
 
   if(!date){
@@ -57,34 +69,56 @@ function loadReport(){
   const list = sales.filter(s => s.date.startsWith(date));
 
   if(list.length === 0){
-    report.innerHTML = `<tr><td colspan="2" style="text-align:center;">ไม่มีข้อมูล</td></tr>`;
+    report.innerHTML = `
+      <tr>
+        <td colspan="2" style="text-align:center;">ไม่มีข้อมูล</td>
+      </tr>
+    `;
     reportTotal.innerHTML = "";
     return;
   }
 
   list.forEach(s => {
-    total += s.total;
+    const kip = toKip(s.total);
+
+    totalTHB += s.total;
+    totalKIP += kip;
+
     html += `
       <tr>
         <td>${s.date}</td>
-        <td>${s.total.toLocaleString()}</td>
+        <td>
+          <b>${s.total.toLocaleString()} บาท</b>
+          <br>
+          <small style="color:#64748b;">
+            ≈ ${kip.toLocaleString()} ກີບ
+          </small>
+        </td>
       </tr>
     `;
   });
 
   report.innerHTML = html;
-  reportTotal.innerHTML = `รวมทั้งวัน: ${total.toLocaleString()} บาท`;
+
+  reportTotal.innerHTML = `
+    รวมทั้งวัน:
+    <b>${totalTHB.toLocaleString()} บาท</b>
+    ≈ <b>${totalKIP.toLocaleString()} ກີບ</b>
+  `;
 }
 
+/* Export CSV */
 function exportCSV(){
   if(sales.length === 0){
     alert("ยังไม่มีข้อมูลขาย");
     return;
   }
 
-  let csv = "Date,Total(THB)\n";
+  let csv = "Date,Total(THB),Total(KIP)\n";
+
   sales.forEach(s=>{
-    csv += `${s.date},${s.total}\n`;
+    const kip = toKip(s.total);
+    csv += `${s.date},${s.total},${kip}\n`;
   });
 
   const blob = new Blob([csv],{type:"text/csv"});

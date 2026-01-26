@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>จัดการเมนู</title>
+<title>ຈັດການເມນູ</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h2>⚙️ ຈັດການເມນູ</h2>
+<h2> 💱 ຈັດການເມນູ</h2>
 
 <!-- แถบควบคุม -->
 <div style="padding:12px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
@@ -50,29 +50,29 @@ function renderManage(){
           <img src="${p.img}">
         </div>
 
-        <!-- เปลี่ยนรูป -->
+        <!-- ປ່ຽນຮູບ -->
         <input type="file" accept="image/*"
           onchange="changeImage(${index}, this)"
           style="margin:6px 0; font-size:12px;">
 
-        <!-- แก้ชื่อ -->
+        <!-- ແກ້ຊື່ -->
         <b contenteditable="true"
            onblur="update(${index}, 'name', this.innerText)">
            ${p.name}
         </b>
 
-        <!-- แก้ราคา -->
+        <!-- ແກ້ລາຄາ -->
         <div contenteditable="true"
              onblur="update(${index}, 'price', this.innerText)">
-          💰 ${p.price} บาท
+          ฿ ${p.price} บาท
         </div>
 
-        <!-- แสดงกีบ -->
+        <!-- ສະແດງກີບ -->
         <small style="color:#555;">
-          ≈ ${kip.toLocaleString()} ກີບ
+          = ${kip.toLocaleString()} ກີບ
         </small>
 
-        <!-- ลบ -->
+        <!-- ລົບ -->
         <button onclick="removeProduct(${index})"
           style="margin-top:auto;
                  background:#ef4444;

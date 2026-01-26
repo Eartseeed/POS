@@ -1,5 +1,5 @@
 /***********************
- POS APP.JS (NEW VERSION)
+ POS APP.JS (STABLE VERSION)
 ***********************/
 
 let cart = {};
@@ -8,20 +8,27 @@ let totalTHB = 0;
 /* =====================
   อัตราแลกเปลี่ยน
 ===================== */
-const RATE_KIP = 680;   // 1 บาท ≈ 15,000 ກີບ
+const RATE_KIP = 680;   // ✅ 1 บาท = 680 กีบ (ปรับได้)
 
 /* =====================
   โหลดเมนูจาก LocalStorage
 ===================== */
 let products = JSON.parse(localStorage.getItem("products") || "[]");
 
-/* ถ้ายังไม่มีเมนูเลย ให้ใส่ค่าเริ่มต้น */
+/* ถ้ายังไม่มีเมนู ให้สร้างตัวอย่าง */
 if (products.length === 0) {
   products = [
     { name: "ข้าวผัด", price: 50, img: "food1.jpg" },
-    { name: "น้ำ", price: 10, img: "food2.jpg" }
+    { name: "น้ำ", price: 20, img: "food2.jpg" }
   ];
   localStorage.setItem("products", JSON.stringify(products));
+}
+
+/* =====================
+  ฟังก์ชันแปลงเงินบาท → กีบ
+===================== */
+function toKip(thb){
+  return Math.round(thb * RATE_KIP);
 }
 
 /* =====================
@@ -34,7 +41,7 @@ function renderMenu() {
   menu.innerHTML = "";
 
   products.forEach((p) => {
-    const kip = p.price * RATE_KIP;
+    const kip = toKip(p.price);
 
     const div = document.createElement("div");
     div.className = "item";
@@ -49,8 +56,8 @@ function renderMenu() {
       </div>
 
       <b>${p.name}</b>
-      <div>${p.price.toLocaleString()} บาท</div>
-      <div>${kip.toLocaleString()} ກີບ</div>
+      <div class="price">${p.price.toLocaleString()} บาท</div>
+      <div class="kip">${kip.toLocaleString()} ກີບ</div>
     `;
 
     menu.appendChild(div);
@@ -58,7 +65,7 @@ function renderMenu() {
 }
 
 /* =====================
-  เพิ่มสินค้าใหม่ (อัปโหลดรูป)
+  เพิ่มสินค้าใหม่ (รองรับอัปโหลดรูป)
 ===================== */
 function addProduct() {
   const name = document.getElementById("pname").value.trim();
@@ -83,7 +90,6 @@ function addProduct() {
     localStorage.setItem("products", JSON.stringify(products));
     renderMenu();
 
-    // clear input
     document.getElementById("pname").value = "";
     document.getElementById("pprice").value = "";
     document.getElementById("pimg").value = "";
@@ -93,7 +99,7 @@ function addProduct() {
 }
 
 /* =====================
-  ตะกร้าสินค้า
+  จัดการตะกร้าสินค้า
 ===================== */
 function change(name, price, qty) {
   if (!cart[name]) {
@@ -106,35 +112,40 @@ function change(name, price, qty) {
     delete cart[name];
   }
 
-  render();
+  renderReceipt();
 }
 
 /* =====================
   แสดงใบเสร็จ
 ===================== */
-function render() {
+function renderReceipt() {
   let html = '';
   totalTHB = 0;
 
   for (let name in cart) {
     const item = cart[name];
     const sum = item.qty * item.price;
-    const kip = sum * RATE_KIP;
+    const kip = toKip(sum);
 
     totalTHB += sum;
 
     html += `
-      ${name} x ${item.qty} = 
-      ${sum.toLocaleString()} บาท 
-      (${kip.toLocaleString()} ກີບ)<br>
+      <div>
+        ${name} x ${item.qty}
+        = ${sum.toLocaleString()} บาท
+        <br>
+        <small style="color:#64748b;">
+          ≈ ${kip.toLocaleString()} ກີບ
+        </small>
+      </div>
     `;
   }
 
-  const totalKIP = totalTHB * RATE_KIP;
+  const totalKIP = toKip(totalTHB);
 
   const itemsBox = document.getElementById("items");
   const totalBox = document.getElementById("total");
-  const timeBox = document.getElementById("time");
+  const timeBox  = document.getElementById("time");
 
   if (itemsBox) {
     itemsBox.innerHTML = html || "- ไม่มีรายการ -";
@@ -142,8 +153,8 @@ function render() {
 
   if (totalBox) {
     totalBox.innerHTML = `
-      รวม: ${totalTHB.toLocaleString()} บาท<br>
-      ≈ ${totalKIP.toLocaleString()} ກີບ
+      รวม: <b>${totalTHB.toLocaleString()} บาท</b><br>
+      ≈ <b>${totalKIP.toLocaleString()} ກີບ</b>
     `;
   }
 
@@ -155,9 +166,26 @@ function render() {
 }
 
 /* =====================
+  บันทึกยอดขาย
+===================== */
+function saveSale(){
+  if(totalTHB <= 0) return;
+
+  const sales = JSON.parse(localStorage.getItem("sales") || "[]");
+
+  sales.push({
+    date: new Date().toISOString(),
+    total: totalTHB
+  });
+
+  localStorage.setItem("sales", JSON.stringify(sales));
+}
+
+/* =====================
   พิมพ์
 ===================== */
 function printCustomer() {
+  saveSale();
   window.print();
 }
 
@@ -174,4 +202,4 @@ function printKitchen() {
   เริ่มต้นระบบ
 ===================== */
 renderMenu();
-render();
+renderReceipt();

@@ -1,22 +1,24 @@
 function printCustomer(){
 
-  const itemsDiv = document.getElementById("items");
-  if(!itemsDiv || itemsDiv.innerHTML.trim() === ""){
+  const items = document.getElementById("items");
+  if(!items || items.innerHTML.trim() === ""){
     alert("ยังไม่มีรายการสินค้า");
     return;
   }
 
-  // วันที่เวลา
+  // วันที่
   document.getElementById("printDate").innerText =
     new Date().toLocaleString();
 
-  // คัดลอกรายการสินค้า
+  // คัดลอกสินค้า
   document.getElementById("printItems").innerHTML =
-    itemsDiv.innerHTML;
+    items.innerHTML;
 
-  // ราคารวม
-  document.getElementById("printTotal").innerText =
-    document.getElementById("total").innerText.replace("รวม:","");
+  // รวมเงิน
+  const totalText = document.getElementById("total").innerText;
+  document.getElementById("printTotal").innerText = totalText;
+
+  console.log("READY TO PRINT");   // ✅ ใช้เช็คว่าโค้ดทำงานไหม
 
   window.print();
 }
