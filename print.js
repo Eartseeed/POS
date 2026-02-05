@@ -1,24 +1,71 @@
+/* =========================
+   PRINT OVERRIDE (SAFE)
+   เขียนทับแบบไม่พังระบบ
+========================= */
+
 function printCustomer(){
 
-  const items = document.getElementById("items");
-  if(!items || items.innerHTML.trim() === ""){
-    alert("ยังไม่มีรายการสินค้า");
+  const itemsEl = document.getElementById("items");
+  const printItemsEl = document.getElementById("printItems");
+
+  if(!itemsEl || !cart || Object.keys(cart).length === 0){
+    alert("❌ ຍັງບໍ່ມີລາຍການສິນຄ້າ");
     return;
   }
 
-  // วันที่
-  document.getElementById("printDate").innerText =
-    new Date().toLocaleString();
+  /* วันที่ / เวลา */
+  const printDate = document.getElementById("printDate");
+  if(printDate){
+    printDate.innerText = new Date().toLocaleString();
+  }
 
-  // คัดลอกสินค้า
-  document.getElementById("printItems").innerHTML =
-    items.innerHTML;
+  /* =========================
+     BUILD PRINT ITEMS (FIX)
+     ชื่อ | = | ราคา (ฟิก)
+  ========================= */
+  let html = "";
 
-  // รวมเงิน
-  const totalText = document.getElementById("total").innerText;
-  document.getElementById("printTotal").innerText = totalText;
+  Object.values(cart).forEach(i => {
+    const name = `${i.name} x${i.qty}`;
+    const price = (i.qty * i.price).toLocaleString();
 
-  console.log("READY TO PRINT");   // ✅ ใช้เช็คว่าโค้ดทำงานไหม
+    html += `
+      <div class="print-item">
+        <span class="item-name">${name}</span>
+        <span class="item-eq">=</span>
+        <span class="item-price">${price}</span>
+      </div>
+    `;
+  });
+
+  printItemsEl.innerHTML = html;
+
+  /* รวมเงิน */
+  const printTotal = document.getElementById("printTotal");
+  if(printTotal){
+    printTotal.innerText = totalKIP.toLocaleString();
+  }
+
+  console.log("✅ PRINT READY (FIX ALIGN)");
 
   window.print();
+}
+
+/* =========================
+   PRINT + CLEAR (SAFE)
+========================= */
+function printAndClear(){
+
+  if(!cart || Object.keys(cart).length === 0){
+    alert("❌ ບໍ່ມີສິນຄ້າໃນບິນ");
+    return;
+  }
+
+  // พิมพ์ก่อน
+  printCustomer();
+
+  // เคลียร์หลังพิมพ์ (กันข้อมูลหาย)
+  setTimeout(() => {
+    clearBill();
+  }, 800);
 }

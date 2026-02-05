@@ -71,3 +71,117 @@
     display: block;
   }
 }
+/* =========================
+   PRINT OVERRIDE (SAFE)
+   ไม่กระทบของเดิม
+========================= */
+
+/* แสดง print-area ตอนพิมพ์เท่านั้น */
+@media print {
+
+  /* บังคับโชว์ */
+  #printArea {
+    display: block !important;
+    width: 72mm;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  /* ซ่อนอย่างอื่น */
+  body > *:not(#printArea) {
+    display: none !important;
+  }
+
+  /* รีเซ็ต body */
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+}
+
+/* =========================
+   FINE TUNE (OPTIONAL)
+========================= */
+
+/* โลโก้ไม่ล้น */
+#printArea .print-logo {
+  max-width: 50mm;
+  height: auto;
+}
+
+/* ตารางอ่านง่ายขึ้น */
+#printArea .print-table td {
+  line-height: 1.4;
+}
+
+/* รวมเงินเด่น */
+#printArea .print-total {
+  font-size: 14px;
+}
+/* =========================
+   🧾 PRINT LOGO + SHOP NAME
+   SAFE OVERRIDE
+========================= */
+
+@media print {
+
+  /* จัดทุกอย่างกึ่งกลาง */
+  #printArea{
+    text-align:center;
+  }
+
+  /* โลโก้ */
+  #printArea .print-logo{
+    display:block;
+    margin:0 auto 4px;
+    width:50mm;
+    height:auto;
+  }
+
+/* ชื่อร้าน */
+.print-shop-name{
+  text-align:center;
+  font-weight:700;
+  font-size:14px;
+  margin-top:4px;
+}
+
+/* เบอร์ร้าน */
+.print-shop-phone{
+  text-align:center;
+  font-size:12px;
+  margin-bottom:4px;
+}
+}
+@media print {
+
+  .print-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    margin: 2px 0;
+  }
+
+  /* ชื่อสินค้า */
+  .item-name {
+    width: 45mm;            /* ฟิกพื้นที่ชื่อ */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* เครื่องหมาย = */
+  .item-eq {
+    width: 5mm;
+    text-align: center;
+  }
+
+  /* ราคา */
+  .item-price {
+    width: 20mm;            /* ฟิกราคา */
+    text-align: right;      /* ชิดขวาสุดใบบิล */
+  }
+
+}

@@ -1231,3 +1231,500 @@ small{
     width:100%;
   }
 }
+/* =====================
+  MENU BARCODE FIX
+===================== */
+
+.menu-barcode {
+  font-size: 12px;
+  color: #475569;
+  margin-top: 2px;
+  margin-bottom: 4px;
+  font-weight: 500;
+  text-align: center;
+  word-break: break-all;
+}
+
+.menu-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #16a34a;
+  margin-top: 4px;
+  text-align: center;
+}
+
+.menu-stock {
+  display: block;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* ป้องกันโดนซ่อน */
+.item {
+  overflow: visible;
+}
+/* ===============================
+   🧾 PRINT BILL – 5 STAR STYLE
+=============================== */
+.print-btn{
+  background: linear-gradient(135deg,#2563eb,#1e40af);
+  color:white;
+  border:none;
+  border-radius:16px;
+  height:64px;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.4px;
+  box-shadow:
+    0 8px 20px rgba(37,99,235,.45),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;
+  overflow:hidden;
+  transition:.25s ease;
+}
+
+/* shine effect */
+.print-btn::after{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-60%;
+  width:40%;
+  height:200%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent
+  );
+  transform:rotate(20deg);
+  transition:.6s;
+}
+
+.print-btn:hover::after{
+  left:120%;
+}
+
+.print-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 14px 30px rgba(37,99,235,.6);
+}
+
+.print-btn:active{
+  transform:scale(.96);
+}
+/* ===============================
+   🍳 KITCHEN BILL – 5 STAR STYLE
+=============================== */
+.kitchen-btn{
+  background: linear-gradient(135deg,#f97316,#ea580c);
+  color:white;
+  border:none;
+  border-radius:16px;
+  height:64px;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.4px;
+  box-shadow:
+    0 8px 20px rgba(249,115,22,.45),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  position:relative;
+  overflow:hidden;
+  transition:.25s ease;
+}
+
+/* glow border */
+.kitchen-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:16px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  pointer-events:none;
+}
+
+.kitchen-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 14px 30px rgba(249,115,22,.6);
+}
+
+.kitchen-btn:active{
+  transform:scale(.96);
+}
+/* ===============================
+   🏪 LOGO + SHOP NAME (VERTICAL)
+=============================== */
+
+/* กล่องหัวบิล */
+#receipt center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+/* โลโก้ */
+#receipt .logo{
+  display:block;
+  margin:0 auto;
+}
+
+/* ชื่อร้าน */
+#shopName{
+  display:block;
+  margin-top:2px;
+  font-size:16px;
+  font-weight:800;
+  text-align:center;
+  line-height:1.3;
+}
+
+/* เบอร์โทร */
+#shopPhone{
+  display:block;
+  font-size:13px;
+  opacity:.8;
+  text-align:center;
+}
+/* ===============================
+   ✅ POS OVERRIDE – CLEAN & LUXURY
+   ไม่กะทบระบบเดิม
+=============================== */
+
+/* -------------------------------
+   GLOBAL
+-------------------------------- */
+body{
+  font-size:14px;
+  line-height:1.45;
+  color:#0f172a;
+}
+
+/* -------------------------------
+   HEADER
+-------------------------------- */
+h2{
+  background:linear-gradient(135deg,#6366f1,#22c55e);
+  font-size:22px;
+  letter-spacing:.4px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+/* -------------------------------
+   MEMBER BAR
+-------------------------------- */
+.member-box{
+  border-radius:0 0 16px 16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.member-box input{
+  border-radius:10px;
+  padding:10px;
+  border:1px solid #e5e7eb;
+}
+
+/* -------------------------------
+   CATEGORY + SEARCH
+-------------------------------- */
+.category-bar{
+  background:linear-gradient(135deg,#ffffff,#f8fafc);
+  padding:14px;
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+#categorySelect,
+#searchInput{
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-weight:600;
+}
+
+#searchInput:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.15);
+}
+
+/* -------------------------------
+   MENU GRID
+-------------------------------- */
+.menu{
+  gap:14px;
+  align-items:stretch;
+}
+
+/* -------------------------------
+   PRODUCT CARD
+-------------------------------- */
+.item{
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border-radius:18px;
+  padding:10px;
+  min-height:320px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:.25s;
+}
+
+.item:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 12px 22px rgba(0,0,0,.18);
+}
+
+/* IMAGE */
+.photo{
+  background:#f1f5f9;
+  border-radius:12px;
+  padding:8px;
+}
+
+/* NAME */
+.item b{
+  font-size:15px;
+  font-weight:700;
+  text-align:center;
+  min-height:26px;
+  margin-bottom:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* PRICE */
+.item .price{
+  font-size:15px;
+  font-weight:800;
+  color:#16a34a;
+  text-align:center;
+}
+
+.item .kip{
+  font-size:12px;
+  opacity:.75;
+  text-align:center;
+}
+
+/* -------------------------------
+   + / - BUTTON
+-------------------------------- */
+.controls{
+  right:8px;
+  bottom:8px;
+  gap:6px;
+}
+
+.controls button{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:900;
+  box-shadow:0 4px 10px rgba(0,0,0,.25);
+  transition:.15s;
+}
+
+.controls button:hover{
+  transform:scale(1.12);
+}
+
+.plus{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+}
+
+.minus{
+  background:linear-gradient(135deg,#ef4444,#fb7185);
+}
+
+/* -------------------------------
+   RIGHT PANEL
+-------------------------------- */
+.right-panel{
+  background:linear-gradient(180deg,#f8fafc,#f1f5f9);
+  border-radius:18px;
+  padding:10px;
+}
+
+/* -------------------------------
+   ACTION BUTTONS
+-------------------------------- */
+.actions-grid{
+  gap:14px;
+}
+
+.actions-grid button{
+  height:64px;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.4px;
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+  transition:.25s;
+}
+
+.actions-grid button:hover{
+  transform:translateY(-3px) scale(1.03);
+}
+
+/* COLORS */
+.manage-btn{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+}
+
+.report-btn{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+}
+
+.print-btn{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+}
+
+.kitchen-btn{
+  background:linear-gradient(135deg,#f97316,#ea580c);
+}
+
+/* -------------------------------
+   RECEIPT (SCREEN)
+-------------------------------- */
+#receipt{
+  margin-top:12px;
+  border-radius:18px;
+  padding:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+  font-size:14px;
+}
+
+/* LOGO + NAME VERTICAL */
+#receipt center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+
+#receipt .logo{
+  width:100px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.2));
+}
+
+#shopName{
+  font-size:16px;
+  font-weight:800;
+  text-align:center;
+}
+
+#shopPhone{
+  font-size:13px;
+  opacity:.8;
+}
+
+/* ITEMS */
+#items div{
+  border-bottom:1px dashed #e5e7eb;
+  padding:4px 0;
+}
+/* =====================================
+   ⭐ POS PREMIUM BUTTON – FINE DINING
+   override-safe / พร้อมทับ
+===================================== */
+
+.pos-btn{
+  height:64px;
+  padding:0 22px;
+  border-radius:18px;
+  border:none;
+  color:#fff;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.4px;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  position:relative;
+  overflow:hidden;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    filter .25s ease;
+}
+
+/* shine layer */
+.pos-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.25),
+    transparent 70%
+  );
+  transform:translateX(-120%);
+  transition:.6s ease;
+}
+
+.pos-btn:hover::after{
+  transform:translateX(120%);
+}
+
+/* glow border */
+.pos-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:18px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  pointer-events:none;
+}
+
+/* hover / active */
+.pos-btn:hover{
+  transform:translateY(-3px) scale(1.04);
+  filter:brightness(1.05);
+}
+
+.pos-btn:active{
+  transform:scale(.96);
+}
+
+/* =====================
+   COLOR THEMES
+===================== */
+
+/* 1️⃣ CATEGORY */
+.pos-btn.cat{
+  background:linear-gradient(135deg,#6366f1,#4338ca);
+  box-shadow:0 10px 26px rgba(99,102,241,.45);
+}
+
+/* 2️⃣ ADD PRODUCT */
+.pos-btn.add{
+  background:linear-gradient(135deg,#22c55e,#15803d);
+  box-shadow:0 10px 26px rgba(34,197,94,.45);
+}
+
+/* 3️⃣ MANAGE */
+.pos-btn.manage{
+  background:linear-gradient(135deg,#f97316,#ea580c);
+  box-shadow:0 10px 26px rgba(249,115,22,.45);
+}
+
+/* 4️⃣ REPORT */
+.pos-btn.report{
+  background:linear-gradient(135deg,#0ea5e9,#0369a1);
+  box-shadow:0 10px 26px rgba(14,165,233,.45);
+}
+
+/* 5️⃣ SHOP SETTING */
+.pos-btn.setting{
+  background:linear-gradient(135deg,#64748b,#334155);
+  box-shadow:0 10px 26px rgba(100,116,139,.45);
+}

@@ -17,13 +17,17 @@
   color: #fff;
 }
 
+/* ===== SHOP NAME ===== */
 .shop-name {
   text-align: center;
   font-size: 32px;
   margin-bottom: 15px;
+  font-weight: 800;
 }
 
-.bill-card, .qr-card {
+/* ===== CARDS ===== */
+.bill-card,
+.qr-card {
   background: #fff;
   color: #333;
   border-radius: 18px;
@@ -32,13 +36,20 @@
   box-shadow: 0 15px 40px rgba(0,0,0,0.25);
 }
 
+/* ===== BILL LIST ===== */
 .bill-row {
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
   border-bottom: 1px dashed #ddd;
+  font-size: 15px;
 }
 
+.bill-row:last-child {
+  border-bottom: none;
+}
+
+/* ===== TOTAL ===== */
 .total {
   margin-top: 15px;
   font-size: 26px;
@@ -47,15 +58,27 @@
   color: #e53935;
 }
 
+/* ===== QR CARD ===== */
 .qr-card {
   text-align: center;
 }
 
-.qr-card img {
-  margin-top: 10px;
-  border-radius: 12px;
+/* ===== CUSTOMER QR IMAGE (PRO) ===== */
+.qr-img{
+  width: 260px;        /* 👈 ปรับขนาดตรงนี้ได้ */
+  max-width: 80%;
+  height: auto;
+  margin: 16px auto;
+  display: block;
+
+  border-radius: 16px;
+  background: white;
+  padding: 12px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
 }
 
+/* ===== HINT ===== */
 .hint {
   margin-top: 8px;
   font-size: 13px;

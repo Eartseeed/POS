@@ -2,60 +2,76 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>🧾 ยอดชำระเงิน</title>
+<title>🧾 ຍອດຊຳລະເງິນ</title>
 <link rel="stylesheet" href="pos.css">
 </head>
+
 <body class="customer-bg">
 
 <div class="customer-screen">
 
-  <h1 class="shop-name" id="shopName">ร้านของเรา</h1>
+  <!-- SHOP NAME -->
+  <h1 class="shop-name" id="shopName">ຮ້ານຂອງເຮົາ</h1>
 
+  <!-- BILL -->
   <div class="bill-card">
-    <h2>🧾 รายการสินค้า</h2>
-    <div id="billList"></div>
+    <h2>🧾 ລາຍການສິນຄ້າ</h2>
+
+    <div id="billList" class="bill-list">-</div>
 
     <div class="total">
-      รวมทั้งหมด
-      <span id="total">0</span> ฿
+      ລວມທັງໝົດ
+      <span id="total">0</span> ກີບ
     </div>
   </div>
 
+  <!-- QR -->
   <div class="qr-card">
-    <h2>📱 สแกนเพื่อชำระเงิน</h2>
-    <img id="qrImg" src="" alt="QR Payment">
-    <p class="hint">รองรับ BCEL / OnePay / PromptPay</p>
+    <h2>📱 ສະແກນເພື່ອຈ່າຍເງິນ</h2>
+
+    <!-- ⭐ QR ร้านตัวเอง -->
+    <img src="C.jpeg" class="qr-img" alt="QR Payment">
+
+    <p class="hint">
+      BCEL • OnePay • PromptPay<br>
+      ກະລຸນາໃສ່ຍອດເງິນຕາມຈໍ
+    </p>
   </div>
 
 </div>
 
 <script>
 function loadBill(){
-  const cart = JSON.parse(localStorage.getItem("POS_CART")) || {};
+  const cart  = JSON.parse(localStorage.getItem("POS_CART")) || {};
   const total = localStorage.getItem("POS_TOTAL") || 0;
   const shop  = JSON.parse(localStorage.getItem("SHOP_INFO")) || {};
 
-  document.getElementById("shopName").innerText = shop.name || "ร้านของเรา";
-  document.getElementById("total").innerText = total;
+  document.getElementById("shopName").innerText =
+    shop.name || "ຮ້ານຂອງເຮົາ";
+
+  document.getElementById("total").innerText =
+    Number(total).toLocaleString("en-US");
 
   const list = document.getElementById("billList");
   list.innerHTML = "";
+
+  if(Object.keys(cart).length === 0){
+    list.innerHTML = "<div style='opacity:.6'>ຍັງບໍ່ມີລາຍການ</div>";
+    return;
+  }
 
   Object.values(cart).forEach(p=>{
     list.innerHTML += `
       <div class="bill-row">
         <span>${p.name} x${p.qty}</span>
-        <b>${p.price * p.qty} ฿</b>
+        <b>${(p.price * p.qty).toLocaleString()}</b>
       </div>
     `;
   });
-
-  // QR (ตัวอย่าง — เปลี่ยนเป็น QR จริงของร้านได้)
-  document.getElementById("qrImg").src =
-    `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=PAY:${total}`;
 }
 
-setInterval(loadBill, 800); // อัปเดตแบบเรียลไทม์
+// realtime update
+setInterval(loadBill, 500);
 </script>
 
 </body>

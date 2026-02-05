@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="lo">
 <head>
 <meta charset="UTF-8">
 <title>🧾 POS</title>
 
+<!-- MAIN STYLE -->
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="print.css">
 <link rel="stylesheet" href="Phetsarath OT.css">
@@ -12,11 +13,31 @@
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c55e">
+
+<style>
+/* ป้องกัน print เพี้ยน */
+@media print {
+  hr {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 6px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<h2 class="main-title">🧾 POS SYSTEM</h2>
+<h2 class="main-title"></h2>
 
 <!-- MEMBER -->
 <div class="member-box modern">
@@ -56,44 +77,52 @@
   <!-- RIGHT -->
   <div class="right-panel">
 
-    <!-- ACTION BUTTONS -->
-    <div class="actions-grid modern-grid">
+    <!-- ACTION BUTTONS (PREMIUM POS) -->
+<div class="actions-grid modern-grid">
 
-      <button class="manage-btn primary" onclick="location.href='add-product.html'">
-        ➕ ເພີ່ມເມນູ
-      </button>
+  <!-- CATEGORY -->
+  <button class="pos-btn cat"
+    onclick="location.href='category.html'">
+    📂 ໝວດສິນຄ້າ
+  </button>
 
-      <button class="manage-btn warning" onclick="location.href='manage.html'">
-        ⚙️ ຈັດການເມນູ
-      </button>
+  <!-- ADD PRODUCT -->
+  <button class="pos-btn add"
+    onclick="location.href='add-product.html'">
+    ➕ ເພີ່ມເມນູ
+  </button>
 
-      <button class="manage-btn info" onclick="location.href='category.html'">
-        📂 ໝວດສິນຄ້າ
-      </button>
+  <!-- MANAGE -->
+  <button class="pos-btn manage"
+    onclick="location.href='manage.html'">
+    ⚙️ ຈັດການເມນູ
+  </button>
 
-      <button class="manage-btn success" onclick="location.href='report.html'">
-        📊 ລາຍງານ
-      </button>
+  <!-- REPORT -->
+  <button class="pos-btn report"
+    onclick="location.href='report.html'">
+    📊 ລາຍງານ
+  </button>
 
-      <button class="manage-btn stock-btn" onclick="openStock()">
-        📦 Stock
-      </button>
+  <!-- SHOP SETTING -->
+  <button class="pos-btn setting"
+    onclick="location.href='shop-setting.html'">
+    🏪 ຕັ້ງຄ່າຮ້ານ
+  </button>
 
-      <button class="print-btn" onclick="printCustomer()">
-        🧾 ພິມບິນ
-      </button>
+  <!-- PRINT (คงของเดิม) -->
+  <button class="print-btn"
+    onclick="printAndClear()">
+    🧾 ພິມບິນ
+  </button>
 
-      <button class="kitchen-btn" onclick="printKitchen()">
-        🍳 ບິນຄົວ
-      </button>
+  <button class="kitchen-btn"
+    onclick="printKitchen()">
+    🍳 ບິນຄົວ
+  </button>
 
-      <button class="manage-btn info" onclick="location.href='shop-setting.html'">
-        🏪 ຕັ້ງຄ່າຮ້ານ
-      </button>
-
-    </div>
-
-    <!-- RECEIPT -->
+</div>
+    <!-- RECEIPT (หน้าจอ) -->
     <div id="receipt" class="receipt-card">
       <center>
         <img id="shopLogo" class="logo">
@@ -112,11 +141,13 @@
   </div>
 </div>
 
-<!-- PRINT AREA -->
+<!-- =====================
+     PRINT AREA (80mm)
+===================== -->
 <div id="printArea" class="print-area">
   <img id="printLogo" class="print-logo">
-  <h3 id="printShopName"></h3>
-  <div id="printDate"></div>
+  <h3 id="printShopName" style="text-align:center;margin:0;"></h3>
+  <div id="printDate" style="text-align:center;"></div>
 
   <div class="print-divider"></div>
 
@@ -136,24 +167,18 @@
 
 <script>
 /* =====================
-  LOAD SHOP INFO
+   LOAD SHOP INFO
 ===================== */
 const shop = JSON.parse(localStorage.getItem("SHOP_INFO") || "{}");
 
-document.getElementById("shopName").innerText =
-  shop.name || "ຮ້ານຂອງຂ້ອຍ";
+shop.name ||= "ຮ້ານຂອງຂ້ອຍ";
 
-document.getElementById("shopPhone").innerText =
-  shop.phone || "";
+document.getElementById("shopName").innerText = shop.name;
+document.getElementById("shopPhone").innerText = shop.phone || "";
+document.getElementById("shopLogo").src = shop.logo || "logo.png";
 
-document.getElementById("shopLogo").src =
-  shop.logo || "logo.png";
-
-document.getElementById("printShopName").innerText =
-  shop.name || "ຮ້ານຂອງຂ້ອຍ";
-
-document.getElementById("printLogo").src =
-  shop.logo || "logo.png";
+document.getElementById("printShopName").innerText = shop.name;
+document.getElementById("printLogo").src = shop.logo || "logo.png";
 </script>
 
 <script>
