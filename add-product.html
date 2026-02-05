@@ -2,24 +2,125 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>จัดการเมนู</title>
+<title>➕ ເພີ່ມເມນູ</title>
+
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="Phetsarath OT.css">
 </head>
+
 <body>
 
-<h2>➕ เพิ่มเมนูสินค้า</h2>
+<h2>➕ ເພີ່ມເມນູສິນຄ້າ</h2>
 
-<div class="add-product" style="margin:20px;">
-  <input id="pname" placeholder="ชื่อเมนู">
-  <input id="pprice" type="number" placeholder="ราคา">
-  <input type="file" id="pimg" accept="image/*">
-  <button onclick="addProduct()">บันทึกเมนู</button>
+<div class="admin-container">
+
+  <div class="admin-card">
+    <div class="admin-title">📝 ຂໍ້ມູນເມນູ</div>
+
+    <!-- FORM -->
+    <div class="form-grid">
+      <!-- NAME -->
+      <input id="pname" placeholder="ຊື່ສິນຄ້າ">
+
+      <!-- BARCODE (SCAN READY) -->
+      <input 
+        id="pbarcode"
+        placeholder="📷 Scan Barcode"
+        inputmode="numeric"
+        autocomplete="off"
+        onfocus="this.select()"
+        oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+        onkeyup="barcodeEnter(event)">
+
+      <!-- PRICE (KIP) -->
+      <input id="pprice" type="number" placeholder="ລາຄາ (ກີບ)">
+
+      <!-- STOCK -->
+      <input id="pstock" type="number" placeholder="📦 ຈຳນວນ Stock">
+
+      <!-- CATEGORY (INPUT) -->
+      <input id="pcategory" placeholder="📂 ໝວດສິນຄ້າ">
+
+      <!-- IMAGE -->
+      <input type="file" id="pimg" accept="image/*">
+    </div>
+
+    <!-- BUTTON -->
+    <div style="margin-top:16px; display:flex; gap:12px;">
+      <button class="btn-main" onclick="addProduct()">💾 ບັນທຶກ</button>
+      <button class="btn-back" onclick="location.href='index.html'">⬅ ກັບ</button>
+    </div>
+
+  </div>
+
 </div>
 
-<div style="padding:20px;">
-  <button onclick="location.href='index.html'">⬅️ กลับหน้าขาย</button>
-</div>
+<script>
+/* =====================
+   BARCODE ENTER SUPPORT
+===================== */
+function barcodeEnter(e){
+  if(e.key === "Enter"){
+    addProduct();
+  }
+}
 
-<script src="app.js"></script>
+/* =====================
+   ADD PRODUCT
+===================== */
+function addProduct() {
+  const name     = document.getElementById("pname").value.trim();
+  const barcode  = document.getElementById("pbarcode").value.trim();
+  const price    = Number(document.getElementById("pprice").value);
+  const stock    = Number(document.getElementById("pstock").value);
+  const category = document.getElementById("pcategory").value.trim();
+  const file     = document.getElementById("pimg").files[0];
+
+  if (!name || !barcode || !price || !file || isNaN(stock)) {
+    alert("❗ ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ");
+    return;
+  }
+
+  if(!/^[0-9]+$/.test(barcode)){
+    alert("❗ Barcode ຕ້ອງເປັນຕົວເລກ");
+    return;
+  }
+
+  let products = JSON.parse(localStorage.getItem("products") || "[]");
+
+  // ❌ Prevent duplicate barcode
+  if(products.some(p => p.barcode === barcode)){
+    alert("❗ Barcode ນີ້ຖືກໃຊ້ແລ້ວ");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    products.push({
+      name,
+      barcode,
+      price,        // KIP
+      img: e.target.result,
+      category,
+      stockIn: stock,
+      sold: 0
+    });
+
+    localStorage.setItem("products", JSON.stringify(products));
+    alert("✅ ບັນທຶກສຳເລັດ");
+
+    // Clear form
+    pname.value = "";
+    pbarcode.value = "";
+    pprice.value = "";
+    pstock.value = "";
+    pcategory.value = "";
+    pimg.value = "";
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
+
 </body>
 </html>

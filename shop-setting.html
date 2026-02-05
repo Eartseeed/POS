@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>⚙️ ตั้งค่าร้าน</title>
+<link rel="stylesheet" href="shop-setting.css">
+</head>
+
+<body>
+
+<!-- ปุ่มกลับหน้าหลัก -->
+<button class="btn-back" onclick="goHome()">⬅ หน้าหลัก</button>
+
+<div class="page">
+  <h2 class="title">⚙️ ตั้งค่าร้าน</h2>
+
+  <div class="admin-card">
+
+    <div class="form-group">
+      <label>🏪 ชื่อร้าน</label>
+      <input id="shopName" placeholder="ชื่อร้าน">
+    </div>
+
+    <div class="form-group">
+      <label>📞 เบอร์โทร</label>
+      <input id="shopPhone" placeholder="020-xxxxxxx">
+    </div>
+
+    <div class="form-group">
+      <label>🖼 โลโก้ร้าน</label>
+      <input type="file" id="shopLogo" accept="image/*">
+    </div>
+
+    <button class="btn-save" onclick="saveShop()">💾 บันทึกข้อมูลร้าน</button>
+
+  </div>
+</div>
+
+<script>
+function saveShop(){
+  const name  = document.getElementById("shopName").value;
+  const phone = document.getElementById("shopPhone").value;
+  const file  = document.getElementById("shopLogo").files[0];
+
+  const shop = { name, phone };
+
+  if(file){
+    const reader = new FileReader();
+    reader.onload = () => {
+      shop.logo = reader.result;
+      localStorage.setItem("SHOP_INFO", JSON.stringify(shop));
+      alert("✅ บันทึกข้อมูลร้านเรียบร้อย");
+    };
+    reader.readAsDataURL(file);
+  }else{
+    localStorage.setItem("SHOP_INFO", JSON.stringify(shop));
+    alert("✅ บันทึกข้อมูลร้านเรียบร้อย");
+  }
+}
+
+function goHome(){
+  window.location.href = "index.html"; // 👉 เปลี่ยนเป็นหน้าหลักของคุณได้
+}
+</script>
+
+</body>
+</html>

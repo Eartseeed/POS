@@ -2,37 +2,77 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ລາຍງານຍອດຂາຍ</title>
+<title>📊 ລາຍງານຍອດຂາຍ & Stock</title>
+
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-<h2>📊 ລາຍງານຍອດຂາຍ</h2>
+<h2 class="report-header">📊 ແດຊບອດລາຍງານຍອດຂາຍ & Stock</h2>
 
 <!-- TOOLBAR -->
-<div class="report-toolbar">
+<div class="report-toolbar modern-toolbar">
 
-  <button class="btn back" onclick="location.href='index.html'">
-    ⬅ ກັບໄປໜ້າຂາຍ
+  <button class="btn back big" onclick="location.href='index.html'">
+    ⬅ ກັບໜ້າຂາຍ
   </button>
 
-  <div class="filter">
-    <label>ເລືອກວັນທີ</label>
-    <input type="date" id="datePick">
+  <div class="filter card">
+    <label>📅 ວັນທີເລີ່ມ</label>
+    <input type="date" id="startDate">
   </div>
 
-  <button class="btn primary" onclick="loadReport()">📂 ເບີ່ງລາຍງານ</button>
-  <button class="btn success" onclick="exportCSV()">📥 Export Excel</button>
+  <div class="filter card">
+    <label>📅 ວັນທີສິ້ນສຸດ</label>
+    <input type="date" id="endDate">
+  </div>
+
+  <button class="btn primary big" onclick="loadReport()">📊 ສະແດງລາຍງານ</button>
+  <button class="btn success big" onclick="exportCSV()">📥 Export</button>
+
+</div>
+
+<!-- DASHBOARD GRID -->
+<div class="report-dashboard">
+
+  <!-- SALES CHART -->
+  <div class="dash-card">
+    <h3>📈 ຍອດຂາຍລາຍວັນ (ກີບ)</h3>
+    <canvas id="salesChart" height="120"></canvas>
+  </div>
+
+  <!-- STOCK CHART -->
+  <div class="dash-card">
+    <h3>📦 Stock ຄົງເຫຼືອ</h3>
+    <canvas id="stockChart" height="120"></canvas>
+  </div>
+
+  <!-- CATEGORY -->
+  <div class="dash-card">
+    <h3>🗂 ຍອດຂາຍຕາມໝວດ (ກີບ)</h3>
+    <div id="categorySummary" class="summary-grid"></div>
+  </div>
+
+  <!-- PRODUCT SUMMARY -->
+  <div class="dash-card">
+    <h3>🔥 ຂາຍດີ / Stock</h3>
+    <div id="productSummary" class="summary-grid"></div>
+  </div>
 
 </div>
 
 <!-- TABLE -->
-<div class="report-box">
+<div class="report-box modern-table">
+
+  <h3>🧾 ລາຍລະອຽດການຂາຍ</h3>
+
   <table class="report-table">
     <thead>
       <tr>
         <th>ວັນທີ / ເວລາ</th>
-        <th>ຍອດຂາຍ</th>
+        <th>ຍອດຂາຍ (ກີບ)</th>
       </tr>
     </thead>
     <tbody id="report"></tbody>
@@ -42,57 +82,60 @@
 </div>
 
 <script>
-let sales = JSON.parse(localStorage.getItem("sales") || "[]");
+let sales    = JSON.parse(localStorage.getItem("sales") || "[]");
+let products = JSON.parse(localStorage.getItem("products") || "[]");
+
+let salesChart = null;
+let stockChart = null;
 
 /* =====================
-   CONFIG ค่าเงิน
+   คำนวณ stock คงเหลือ
 ===================== */
-const RATE_KIP = 680;   // ✅ 1 บาท = 680 กีบ (ปรับได้)
-
-/* แปลงเงินบาท → กีบ */
-function toKip(thb){
-  return Math.round(thb * RATE_KIP);
+function getStockRemain(p){
+  return (p.stockIn || 0) - (p.sold || 0);
 }
 
-/* โหลดรายงาน */
+/* =====================
+   LOAD REPORT
+===================== */
 function loadReport(){
-  const date = datePick.value;
-  let totalTHB = 0;
-  let totalKIP = 0;
-  let html = "";
+  const start = startDate.value;
+  const end   = endDate.value;
 
-  if(!date){
-    alert("กรุณาเลือกวันที่ก่อน");
+  if(!start || !end){
+    alert("ກະລຸນາເລືອກຊ່ວງວັນທີ");
     return;
   }
 
-  const list = sales.filter(s => s.date.startsWith(date));
+  const startTime = new Date(start).getTime();
+  const endTime   = new Date(end).getTime() + 86400000;
+
+  let totalKIP = 0;
+  let html = "";
+
+  const list = sales.filter(s=>{
+    const t = new Date(s.date).getTime();
+    return t >= startTime && t <= endTime;
+  });
 
   if(list.length === 0){
     report.innerHTML = `
       <tr>
-        <td colspan="2" style="text-align:center;">ไม่มีข้อมูล</td>
+        <td colspan="2" style="text-align:center;">ບໍ່ມີຂໍ້ມູນ</td>
       </tr>
     `;
     reportTotal.innerHTML = "";
     return;
   }
 
-  list.forEach(s => {
-    const kip = toKip(s.total);
-
-    totalTHB += s.total;
-    totalKIP += kip;
+  list.forEach(s=>{
+    totalKIP += s.total;
 
     html += `
       <tr>
-        <td>${s.date}</td>
+        <td>${new Date(s.date).toLocaleString()}</td>
         <td>
-          <b>${s.total.toLocaleString()} บาท</b>
-          <br>
-          <small style="color:#64748b;">
-            ≈ ${kip.toLocaleString()} ກີບ
-          </small>
+          <b>${s.total.toLocaleString()} ກີບ</b>
         </td>
       </tr>
     `;
@@ -101,32 +144,151 @@ function loadReport(){
   report.innerHTML = html;
 
   reportTotal.innerHTML = `
-    รวมทั้งวัน:
-    <b>${totalTHB.toLocaleString()} บาท</b>
-    ≈ <b>${totalKIP.toLocaleString()} ກີບ</b>
+    💰 ລວມທັງໝົດ:
+    <b>${totalKIP.toLocaleString()} ກີບ</b>
   `;
+
+  drawSalesChart(list);
+  drawStockChart();
+  renderCategorySummary(list);
+  renderProductSummary();
 }
 
-/* Export CSV */
+/* =====================
+   SALES CHART
+===================== */
+function drawSalesChart(list){
+  const daily = {};
+
+  list.forEach(s=>{
+    const day = s.date.substring(0,10);
+    daily[day] = (daily[day] || 0) + s.total;
+  });
+
+  const labels = Object.keys(daily);
+  const values = Object.values(daily);
+
+  if(salesChart) salesChart.destroy();
+
+  salesChart = new Chart(
+    document.getElementById("salesChart"),{
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "ຍອດຂາຍ (ກີບ)",
+          data: values
+        }]
+      }
+    }
+  );
+}
+
+/* =====================
+   STOCK CHART
+===================== */
+function drawStockChart(){
+  const labels = products.map(p=>p.name);
+  const values = products.map(p=>getStockRemain(p));
+
+  if(stockChart) stockChart.destroy();
+
+  stockChart = new Chart(
+    document.getElementById("stockChart"),{
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: "Stock ຄົງເຫຼືອ",
+          data: values
+        }]
+      }
+    }
+  );
+}
+
+/* =====================
+   CATEGORY SUMMARY
+===================== */
+function renderCategorySummary(list){
+  const cat = {};
+
+  list.forEach(s=>{
+    if(!s.items) return;
+
+    s.items.forEach(i=>{
+      const name = i.category || "ອື່ນໆ";
+      cat[name] = (cat[name] || 0) + (i.price * i.qty);
+    });
+  });
+
+  let html = "";
+  for(const k in cat){
+    html += `
+      <div class="summary-card">
+        <div>${k}</div>
+        <b>${cat[k].toLocaleString()} ກີບ</b>
+      </div>
+    `;
+  }
+
+  categorySummary.innerHTML = html;
+}
+
+/* =====================
+   PRODUCT SUMMARY
+===================== */
+function renderProductSummary(){
+  let html = "";
+
+  products.forEach(p=>{
+    html += `
+      <div class="summary-card blue">
+        <b>${p.name}</b><br>
+        🔥 ຂາຍແລ້ວ: ${p.sold || 0}<br>
+        📦 Stock: ${getStockRemain(p)}
+      </div>
+    `;
+  });
+
+  productSummary.innerHTML = html;
+}
+
+/* =====================
+   EXPORT CSV (KIP)
+===================== */
 function exportCSV(){
-  if(sales.length === 0){
-    alert("ยังไม่มีข้อมูลขาย");
+  const start = startDate.value;
+  const end   = endDate.value;
+
+  if(!start || !end){
+    alert("ເລືອກວັນທີກ່ອນ Export");
     return;
   }
 
-  let csv = "Date,Total(THB),Total(KIP)\n";
+  const startTime = new Date(start).getTime();
+  const endTime   = new Date(end).getTime() + 86400000;
 
-  sales.forEach(s=>{
-    const kip = toKip(s.total);
-    csv += `${s.date},${s.total},${kip}\n`;
+  const list = sales.filter(s=>{
+    const t = new Date(s.date).getTime();
+    return t >= startTime && t <= endTime;
+  });
+
+  if(list.length === 0){
+    alert("ບໍ່ມີຂໍ້ມູນ");
+    return;
+  }
+
+  let csv = "Date,Total(KIP)\n";
+  list.forEach(s=>{
+    csv += `${s.date},${s.total}\n`;
   });
 
   const blob = new Blob([csv],{type:"text/csv"});
   const url = URL.createObjectURL(blob);
-
   const a = document.createElement("a");
   a.href = url;
-  a.download = "sales.csv";
+  a.download = "sales_report_kip.csv";
   a.click();
 }
 </script>

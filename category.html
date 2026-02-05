@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>📂 ຈັດການໝວດ</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="Phetsarath OT.css">
+</head>
+
+<body>
+
+<h2>📂 ຈັດການໝວດສິນຄ້າ</h2>
+
+<div class="admin-container">
+
+  <div class="admin-card">
+
+    <div class="admin-title">📦 ລາຍການໝວດສິນຄ້າ</div>
+
+    <!-- TOOLBAR -->
+    <div class="admin-toolbar">
+      <input id="newCategory" placeholder="➕ ພິມຊື່ໝວດໃໝ່...">
+      <button class="btn-main" onclick="addCategory()">➕ ເພີ່ມໝວດ</button>
+      <button class="btn-back" onclick="location.href='index.html'">⬅ ກັບ</button>
+    </div>
+
+    <!-- CATEGORY LIST -->
+    <div class="category-list" id="categoryList"></div>
+
+  </div>
+
+</div>
+
+<script>
+let categories = JSON.parse(localStorage.getItem("categories") || "[]");
+
+/* แสดงหมวด */
+function render(){
+  const box = document.getElementById("categoryList");
+  box.innerHTML = "";
+
+  if(categories.length === 0){
+    box.innerHTML = `
+      <div style="opacity:.6;text-align:center;padding:20px;">
+        ຍັງບໍ່ມີໝວດສິນຄ້າ
+      </div>
+    `;
+  }
+
+  categories.forEach((cat,index)=>{
+    box.innerHTML += `
+      <div class="category-item">
+        <input value="${cat}" 
+          onchange="rename(${index}, this.value)">
+        <button title="ລົບ" onclick="removeCat(${index})">🗑</button>
+      </div>
+    `;
+  });
+
+  localStorage.setItem("categories", JSON.stringify(categories));
+}
+
+/* เพิ่มหมวด */
+function addCategory(){
+  const val = newCategory.value.trim();
+  if(!val){
+    alert("ກະລຸນາພິມຊື່ໝວດ");
+    return;
+  }
+
+  categories.push(val);
+  newCategory.value = "";
+  render();
+}
+
+/* เปลี่ยนชื่อ */
+function rename(index,val){
+  categories[index] = val.trim();
+  render();
+}
+
+/* ลบหมวด */
+function removeCat(index){
+  if(!confirm("❗ ຕ້ອງການລົບໝວດນີ້ບໍ?")) return;
+  categories.splice(index,1);
+  render();
+}
+
+render();
+</script>
+
+</body>
+</html>

@@ -2,10 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>POS ร้านอาหาร</title>
+<title>🧾 POS</title>
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="print.css">
+<link rel="stylesheet" href="Phetsarath OT.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#22c55e">
@@ -13,40 +16,89 @@
 
 <body>
 
-<h2>🧾 POS ร้านอาหาร</h2>
+<h2 class="main-title">🧾 POS SYSTEM</h2>
 
 <!-- MEMBER -->
-<div class="member-box">
-  <input id="memberName" placeholder="ชื่อลูกค้า">
-  <input id="memberPhone" placeholder="เบอร์โทร">
-  <input id="discount" type="number" placeholder="ส่วนลด %" value="0">
+<div class="member-box modern">
+  <input id="memberName" placeholder="👤 ຊື່ລູກຄ້າ">
+  <input id="memberPhone" placeholder="📞 ເບີໂທ">
+  <input id="discount" type="number" placeholder="💸 ສ່ວນຫຼຸດ %" value="0">
 </div>
 
 <div class="app">
 
   <!-- LEFT -->
-  <div>
+  <div class="left-panel">
+
+    <!-- CATEGORY + SEARCH -->
+    <div class="category-bar modern" style="display:flex;gap:10px;align-items:center;">
+      <div>
+        <label>📂 ໝວດ</label><br>
+        <select id="categorySelect" onchange="filterProducts()"></select>
+      </div>
+
+      <div style="flex:1">
+        <label>🔍 ຄົ້ນຫາ</label><br>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="ຊື່ / Barcode"
+          oninput="filterProducts()"
+          style="width:100%;padding:8px;border-radius:10px;border:1px solid #e5e7eb;">
+      </div>
+    </div>
+
+    <!-- MENU GRID -->
     <div class="menu" id="menu"></div>
+
   </div>
 
   <!-- RIGHT -->
   <div class="right-panel">
 
     <!-- ACTION BUTTONS -->
-    <div class="actions-grid">
-      <button class="manage-btn" onclick="location.href='add-product.html'">➕ จัดการเมนู</button>
-      <button class="manage-btn" onclick="location.href='manage.html'">⚙️ จัดการเมนู</button>
-      <button class="report-btn" onclick="location.href='report.html'">📊 รายงาน</button>
-      <button class="print" onclick="printCustomer()">พิมพ์ลูกค้า</button>
-      <button class="kitchen" onclick="printKitchen()">พิมพ์ครัว</button>
+    <div class="actions-grid modern-grid">
+
+      <button class="manage-btn primary" onclick="location.href='add-product.html'">
+        ➕ ເພີ່ມເມນູ
+      </button>
+
+      <button class="manage-btn warning" onclick="location.href='manage.html'">
+        ⚙️ ຈັດການເມນູ
+      </button>
+
+      <button class="manage-btn info" onclick="location.href='category.html'">
+        📂 ໝວດສິນຄ້າ
+      </button>
+
+      <button class="manage-btn success" onclick="location.href='report.html'">
+        📊 ລາຍງານ
+      </button>
+
+      <button class="manage-btn stock-btn" onclick="openStock()">
+        📦 Stock
+      </button>
+
+      <button class="print-btn" onclick="printCustomer()">
+        🧾 ພິມບິນ
+      </button>
+
+      <button class="kitchen-btn" onclick="printKitchen()">
+        🍳 ບິນຄົວ
+      </button>
+
+      <button class="manage-btn info" onclick="location.href='shop-setting.html'">
+        🏪 ຕັ້ງຄ່າຮ້ານ
+      </button>
+
     </div>
 
     <!-- RECEIPT -->
-    <div id="receipt">
+    <div id="receipt" class="receipt-card">
       <center>
-        <img src="logo.png" class="logo">
-        <b>ร้านอาหารของฉัน</b><br>
-        โทร: 020-xxxxxxx
+        <img id="shopLogo" class="logo">
+        <b id="shopName"></b><br>
+        <span id="shopPhone"></span>
       </center>
 
       <hr>
@@ -54,7 +106,7 @@
       <hr>
       <div id="items"></div>
       <hr>
-      <b id="total">รวม: 0 บาท</b>
+      <b id="total">ລວມ: 0 ກີບ</b>
     </div>
 
   </div>
@@ -62,8 +114,8 @@
 
 <!-- PRINT AREA -->
 <div id="printArea" class="print-area">
-  <img src="logo.png" class="print-logo">
-  <h3>ร้านอาหารของฉัน</h3>
+  <img id="printLogo" class="print-logo">
+  <h3 id="printShopName"></h3>
   <div id="printDate"></div>
 
   <div class="print-divider"></div>
@@ -75,12 +127,34 @@
   <div class="print-divider"></div>
 
   <div class="print-total">
-    รวมทั้งหมด: <span id="printTotal"></span>
+    ລວມທັງໝົດ: <span id="printTotal"></span> ກີບ
   </div>
 </div>
 
 <script src="app.js"></script>
 <script src="print.js"></script>
+
+<script>
+/* =====================
+  LOAD SHOP INFO
+===================== */
+const shop = JSON.parse(localStorage.getItem("SHOP_INFO") || "{}");
+
+document.getElementById("shopName").innerText =
+  shop.name || "ຮ້ານຂອງຂ້ອຍ";
+
+document.getElementById("shopPhone").innerText =
+  shop.phone || "";
+
+document.getElementById("shopLogo").src =
+  shop.logo || "logo.png";
+
+document.getElementById("printShopName").innerText =
+  shop.name || "ຮ້ານຂອງຂ້ອຍ";
+
+document.getElementById("printLogo").src =
+  shop.logo || "logo.png";
+</script>
 
 <script>
 if ("serviceWorker" in navigator) {

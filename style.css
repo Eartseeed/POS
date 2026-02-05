@@ -306,3 +306,928 @@ h2{
 .actions-grid button:last-child{
   grid-column:auto;
 }
+/* ===============================
+   ADMIN PAGE UI (Manage / Category / Add)
+================================ */
+
+.admin-container{
+  max-width:1100px;
+  margin:16px auto;
+  padding:12px;
+}
+
+.admin-card{
+  background:white;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.06);
+  margin-bottom:14px;
+}
+
+.admin-title{
+  font-weight:700;
+  margin-bottom:10px;
+  color:#0f172a;
+}
+
+/* toolbar */
+.admin-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.admin-toolbar button{
+  padding:10px 14px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  background:#334155;
+  color:white;
+}
+
+/* form grid */
+.form-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:10px;
+}
+
+.form-grid input,
+.form-grid select{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+}
+
+/* primary button */
+.btn-main{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+/* category list */
+.category-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:12px;
+}
+
+.category-item{
+  background:#f8fafc;
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:6px;
+}
+
+.category-item input{
+  border:none;
+  background:transparent;
+  font-weight:600;
+  width:100%;
+}
+
+.category-item button{
+  border:none;
+  background:#ef4444;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+  padding:4px 8px;
+}
+/* ==================================================
+   MODERN POS THEME (ADMIN UI)
+================================================== */
+
+:root{
+  --main:#22c55e;
+  --main-dark:#16a34a;
+  --blue:#3b82f6;
+  --orange:#f97316;
+  --red:#ef4444;
+  --dark:#0f172a;
+}
+
+.admin-container{
+  max-width:1200px;
+  margin:20px auto;
+  padding:10px;
+}
+
+.admin-card{
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  margin-bottom:16px;
+}
+
+.admin-title{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:12px;
+  color:var(--dark);
+}
+
+/* toolbar */
+.admin-toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
+}
+
+.admin-toolbar input{
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  flex:1;
+}
+
+/* buttons */
+.btn-main{
+  background:linear-gradient(135deg,var(--main),var(--main-dark));
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:10px 18px;
+  cursor:pointer;
+  font-weight:700;
+  transition:.2s;
+}
+
+.btn-main:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 6px 12px rgba(0,0,0,.15);
+}
+
+.btn-back{
+  background:linear-gradient(135deg,#475569,#1e293b);
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:10px 18px;
+  cursor:pointer;
+}
+
+/* form */
+.form-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:12px;
+}
+
+.form-grid input,
+.form-grid select{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+/* category */
+.category-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:14px;
+  margin-top:12px;
+}
+
+.category-item{
+  background:white;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+  transition:.2s;
+}
+
+.category-item:hover{
+  transform:translateY(-2px);
+}
+
+.category-item input{
+  border:none;
+  font-weight:700;
+  font-size:15px;
+  width:100%;
+  outline:none;
+}
+
+.category-item button{
+  background:var(--red);
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:6px 10px;
+  cursor:pointer;
+}
+
+/* manage product card */
+.manage-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
+}
+
+.manage-card{
+  background:white;
+  border-radius:16px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  transition:.2s;
+}
+
+.manage-card:hover{
+  transform:translateY(-4px);
+}
+
+.manage-card img{
+  width:100%;
+  height:140px;
+  object-fit:contain;
+  border-radius:12px;
+  background:#f1f5f9;
+}
+
+.manage-card input,
+.manage-card select{
+  margin-top:6px;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+}
+
+.manage-card .danger{
+  margin-top:auto;
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  border:none;
+  border-radius:10px;
+  color:white;
+  padding:8px;
+  cursor:pointer;
+}
+/* =========================
+   MANAGE PAGE PRO STYLE
+========================= */
+
+.admin-toolbar-modern{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  padding:14px;
+  margin:12px;
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  align-items:center;
+}
+
+.rate-box{
+  background:white;
+  padding:8px 12px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:14px;
+}
+
+.rate-box input{
+  width:90px;
+  padding:4px 6px;
+  border-radius:6px;
+  border:1px solid #ddd;
+}
+
+.btn-save{
+  background:#22c55e;
+  border:none;
+  color:white;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.btn-back{
+  background:#0f172a;
+  color:white;
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.btn-category{
+  background:linear-gradient(135deg,#f97316,#fb923c);
+  color:white;
+  border:none;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* GRID */
+.manage-grid{
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+}
+
+/* CARD */
+.manage-card{
+  background:white;
+  border-radius:18px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  transition:.2s;
+}
+
+.manage-card:hover{
+  transform:translateY(-3px);
+}
+
+.manage-photo{
+  height:140px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.manage-photo img{
+  max-height:100%;
+  max-width:100%;
+  object-fit:contain;
+}
+
+.manage-card label{
+  font-size:12px;
+  opacity:.7;
+}
+
+.manage-card input,
+.manage-card select{
+  padding:6px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+
+.kip-label{
+  font-size:12px;
+  color:#64748b;
+  text-align:center;
+}
+
+.btn-delete{
+  margin-top:auto;
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:8px;
+  cursor:pointer;
+}
+/* =========================
+   REPORT DASHBOARD STYLE
+========================= */
+
+.report-header{
+  background:linear-gradient(135deg,#6366f1,#22c55e);
+}
+
+/* toolbar */
+.modern-toolbar{
+  border-radius:18px;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+}
+
+.modern-toolbar .card{
+  background:white;
+  padding:8px 12px;
+  border-radius:12px;
+}
+
+.btn.big{
+  height:52px;
+  font-size:15px;
+}
+
+/* dashboard */
+.report-dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:16px;
+  padding:12px;
+}
+
+.dash-card{
+  background:white;
+  border-radius:18px;
+  padding:14px;
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+}
+
+.dash-card h3{
+  margin-top:0;
+}
+
+/* summary */
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:10px;
+}
+
+.summary-card{
+  background:linear-gradient(135deg,#6366f1,#818cf8);
+  color:white;
+  padding:12px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 6px 12px rgba(0,0,0,.12);
+}
+
+.summary-card.blue{
+  background:linear-gradient(135deg,#0ea5e9,#38bdf8);
+}
+
+.summary-card.green{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+}
+
+/* table */
+.modern-table{
+  margin-top:6px;
+}
+/* ===============================
+   🌈 MODERN POS THEME (INDEX)
+=============================== */
+
+/* HEADER */
+h2{
+  background:linear-gradient(135deg,#6366f1,#22c55e);
+  font-size:22px;
+  letter-spacing:.5px;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+/* MEMBER BAR */
+.member-box{
+  border-radius:0 0 16px 16px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.member-box input{
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  padding:10px;
+  font-size:14px;
+}
+
+/* CATEGORY BAR */
+.category-bar{
+  background:white;
+  padding:10px;
+  border-radius:14px;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+  margin-bottom:10px;
+}
+
+.category-bar select{
+  width:240px;
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+  font-weight:600;
+}
+
+/* MENU GRID */
+.menu{
+  gap:14px;
+}
+
+/* PRODUCT CARD */
+.item{
+  border-radius:18px;
+  transition:.25s;
+  background:linear-gradient(180deg,#ffffff,#f8fafc);
+}
+
+.item:hover{
+  transform:translateY(-4px) scale(1.02);
+  box-shadow:0 10px 22px rgba(0,0,0,.15);
+}
+
+/* IMAGE */
+.photo{
+  background:#f1f5f9;
+  border-radius:12px;
+  padding:6px;
+}
+
+/* NAME */
+.item b{
+  font-size:15px;
+  color:#0f172a;
+}
+
+/* PRICE */
+.item .price{
+  font-weight:700;
+  color:#16a34a;
+}
+
+/* KIP */
+.item .kip{
+  font-size:12px;
+  opacity:.8;
+}
+
+/* PLUS / MINUS */
+.controls button{
+  transition:.15s;
+}
+
+.controls button:hover{
+  transform:scale(1.12);
+  filter:brightness(1.1);
+}
+
+/* RIGHT PANEL */
+.right-panel{
+  background:linear-gradient(180deg,#f8fafc,#f1f5f9);
+  border-radius:18px;
+  padding:10px;
+}
+
+/* ACTION BUTTON GRID */
+.actions-grid{
+  gap:14px;
+}
+
+.actions-grid button{
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.3px;
+  box-shadow:0 6px 14px rgba(0,0,0,.18);
+  transition:.2s;
+}
+
+.actions-grid button:hover{
+  transform:translateY(-2px) scale(1.03);
+  filter:brightness(1.05);
+}
+
+/* BUTTON COLORS */
+.manage-btn{
+  background:linear-gradient(135deg,#6366f1,#8b5cf6);
+}
+
+.report-btn{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+}
+
+.print{
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+}
+
+.kitchen{
+  background:linear-gradient(135deg,#f97316,#fb923c);
+}
+
+/* RECEIPT */
+#receipt{
+  margin-top:12px;
+  border-radius:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+#receipt b{
+  font-size:16px;
+}
+
+/* RECEIPT ITEMS */
+#items div{
+  border-bottom:1px dashed #e5e7eb;
+  padding:4px 0;
+}
+
+/* LOGO */
+.logo{
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.2));
+}
+
+/* SCROLLBAR (Chrome) */
+::-webkit-scrollbar{
+  width:8px;
+}
+::-webkit-scrollbar-thumb{
+  background:#cbd5f5;
+  border-radius:10px;
+}
+/* =========================
+   BADGE COUNT
+========================= */
+
+.badge{
+  position:absolute;
+  top:6px;
+  left:6px;
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  color:white;
+  font-size:12px;
+  font-weight:800;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+  pointer-events:none;
+}
+
+.badge.hide{
+  display:none;
+}
+.stock-btn{
+  background: linear-gradient(135deg,#6366f1,#22d3ee);
+  color:#fff;
+}
+.stock-btn:hover{
+  transform: scale(1.05);
+}
+/* ===============================
+   ✨ UI UPGRADE : TEXT + BUTTON + POS FEEL
+=============================== */
+
+/* อ่านง่ายขึ้นทุกจุด */
+body{
+  font-size:14px;
+  line-height:1.45;
+  letter-spacing:0.2px;
+  color:#0f172a;
+}
+
+/* ป้องกันตัวหนังสือล้นกรอบ */
+.item b,
+.item .price,
+.item .kip,
+small{
+  word-break:break-word;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* ชื่อสินค้า – ไม่ล้น + center */
+.item b{
+  padding:0 4px;
+  text-align:center;
+}
+
+/* ราคา */
+.item .price{
+  margin-top:2px;
+}
+
+/* stock label */
+.item small{
+  font-size:12px;
+  margin-top:2px;
+}
+
+/* ===============================
+   🎯 PRODUCT CARD SPACING
+=============================== */
+
+.item{
+  padding:10px;
+}
+
+.photo{
+  padding:8px;
+}
+
+/* ===============================
+   ➕➖ PROFESSIONAL BUTTON
+=============================== */
+
+.controls{
+  right:8px;
+  bottom:8px;
+  gap:6px;
+}
+
+/* ปุ่มใหญ่ กดง่าย */
+.controls button{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:900;
+  box-shadow:0 4px 10px rgba(0,0,0,.25);
+  transition:0.15s ease;
+}
+
+/* เอฟเฟกต์ hover */
+.controls button:hover{
+  transform:scale(1.12);
+  filter:brightness(1.1);
+}
+
+/* เอฟเฟกต์กด */
+.controls button:active{
+  transform:scale(0.95);
+}
+
+/* + ปุ่ม */
+.plus{
+  background:linear-gradient(135deg,#22c55e,#4ade80);
+}
+
+/* - ปุ่ม */
+.minus{
+  background:linear-gradient(135deg,#ef4444,#fb7185);
+}
+
+/* ===============================
+   💳 RECEIPT READABILITY
+=============================== */
+
+#receipt{
+  font-size:14px;
+}
+
+#items div{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+/* ===============================
+   🧩 BUTTON PANEL BALANCE
+=============================== */
+
+.actions-grid button{
+  font-size:15px;
+  letter-spacing:.3px;
+}
+
+/* ===============================
+   🌟 MICRO ANIMATION (FEEL PREMIUM)
+=============================== */
+
+.item{
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.item:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 12px 22px rgba(0,0,0,.18);
+}
+/* ===============================
+   📏 MENU CARD FULL HEIGHT
+=============================== */
+
+/* ให้ grid ยืดความสูงอัตโนมัติ */
+.menu{
+  align-items:stretch;
+}
+
+/* การ์ดสูงเต็มพื้นที่ */
+.item{
+  min-height:340px;              /* <<< ปรับได้ตามใจ */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+/* ระยะห่างตัวหนังสือในเมนู */
+.item {
+  line-height: 1.5;
+}
+
+.item .menu-name {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.item .barcode,
+.item .price,
+.item .category,
+.item .stock {
+  margin-top: 4px;
+}
+/* ===============================
+   🔼 MOVE TEXT UP UNDER MENU NAME
+=============================== */
+
+/* ลดความสูงบังคับของชื่อสินค้า */
+.item b{
+  min-height: 26px;        /* เดิม 40px → ลดลง */
+  margin-bottom: 2px;     /* ให้ชิดข้อความด้านล่าง */
+}
+
+/* ดึงข้อความใต้ชื่อให้ชิดขึ้น */
+.item .barcode,
+.item .price,
+.item .kip,
+.item small{
+  margin-top: 2px;        /* เดิม 4–6px */
+  line-height: 1.2;
+}
+
+/* ลดช่องว่างรวมในการ์ด */
+.item{
+  row-gap: 4px;
+}
+/* ===============================
+   🔍 SEARCH + CATEGORY BAR PRO UI
+=============================== */
+
+.category-bar{
+  display:flex;
+  gap:14px;
+  align-items:flex-end;
+  padding:14px;
+  background:linear-gradient(135deg,#ffffff,#f8fafc);
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+.filter-group,
+.search-group{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.filter-group label,
+.search-group label{
+  font-size:12px;
+  font-weight:700;
+  color:#334155;
+}
+
+/* dropdown */
+#categorySelect{
+  min-width:200px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-weight:600;
+  background:white;
+  cursor:pointer;
+}
+
+/* search input */
+#searchInput{
+  min-width:260px;
+  padding:10px 14px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
+  font-size:14px;
+  transition:.2s;
+}
+
+#searchInput:focus{
+  outline:none;
+  border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.15);
+}
+
+/* hover effect */
+#categorySelect:hover,
+#searchInput:hover{
+  border-color:#94a3b8;
+}
+
+/* responsive */
+@media(max-width:900px){
+  .category-bar{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  #categorySelect,
+  #searchInput{
+    width:100%;
+  }
+}

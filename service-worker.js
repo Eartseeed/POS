@@ -1,4 +1,4 @@
-const CACHE = "pos-cache-v9";
+const CACHE = "pos-cache-v14";
 
 const FILES = [
   "./",

@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== CUSTOMER SCREEN ===== */
+.customer-bg {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  margin: 0;
+  min-height: 100vh;
+}
+
+.customer-screen {
+  max-width: 520px;
+  margin: auto;
+  padding: 20px;
+  color: #fff;
+}
+
+.shop-name {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.bill-card, .qr-card {
+  background: #fff;
+  color: #333;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed #ddd;
+}
+
+.total {
+  margin-top: 15px;
+  font-size: 26px;
+  text-align: right;
+  font-weight: bold;
+  color: #e53935;
+}
+
+.qr-card {
+  text-align: center;
+}
+
+.qr-card img {
+  margin-top: 10px;
+  border-radius: 12px;
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #777;
+}

@@ -2,159 +2,187 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ຈັດການເມນູ</title>
+<title>⚙️ ຈັດການເມນູ</title>
+
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="Phetsarath OT.css">
 </head>
 
 <body>
 
-<h2> 💱 ຈັດການເມນູ</h2>
+<h2>⚙️ ຈັດການເມນູສິນຄ້າ</h2>
 
-<!-- แถบควบคุม -->
-<div style="padding:12px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-  <button onclick="location.href='index.html'">⬅ ກັບໄປໜ້າຂາຍ</button>
+<!-- TOOLBAR -->
+<div class="admin-toolbar-modern">
 
-  <div style="background:white;padding:8px 12px;border-radius:8px;">
-    💱 ປັບເລດເງີນ:
-    1 บาท =
-    <input id="rateInput" type="number" style="width:90px;"> ກີບ
-    <button onclick="saveRate()">ບັນທຶກ</button>
-  </div>
+  <button class="btn-back" onclick="location.href='index.html'">
+    ⬅ ກັບໜ້າຂາຍ
+  </button>
+
 </div>
 
-<div class="menu" id="manageMenu"></div>
+<!-- MENU GRID -->
+<div class="menu manage-grid" id="manageMenu"></div>
 
 <script>
-/* ==========================
-   โหลดเรทเงิน (default 680)
-========================== */
-let RATE_KIP = parseFloat(localStorage.getItem("RATE_KIP")) || 680;
-document.getElementById("rateInput").value = RATE_KIP;
-
+/* =====================
+   LOAD DATA
+===================== */
 let products = JSON.parse(localStorage.getItem("products") || "[]");
+const menuBox = document.getElementById("manageMenu");
 
-/* ==========================
-   แสดงรายการเมนู
-========================== */
+/* =====================
+   RENDER
+===================== */
 function renderManage(){
-  const box = document.getElementById("manageMenu");
-  box.innerHTML = "";
+  menuBox.innerHTML = "";
 
-  products.forEach((p,index)=>{
-    const kip = p.price * RATE_KIP;
+  products.forEach((p, index)=>{
+    if(typeof p.stockIn !== "number"){
+      p.stockIn = p.stock || 0;
+      p.sold = p.sold || 0;
+      delete p.stock;
+    }
 
-    box.innerHTML += `
-      <div class="item">
+    const remain = p.stockIn - p.sold;
 
-        <div class="photo">
-          <img src="${p.img}">
-        </div>
+    const div = document.createElement("div");
+    div.className = "manage-card";
 
-        <!-- ປ່ຽນຮູບ -->
-        <input type="file" accept="image/*"
-          onchange="changeImage(${index}, this)"
-          style="margin:6px 0; font-size:12px;">
+    div.innerHTML = `
+      <img src="${p.img}">
+      
+      <!-- NAME -->
+      <input 
+        value="${p.name}" 
+        placeholder="ຊື່ສິນຄ້າ"
+        onchange="updateField(${index}, 'name', this.value)">
 
-        <!-- ແກ້ຊື່ -->
-        <b contenteditable="true"
-           onblur="update(${index}, 'name', this.innerText)">
-           ${p.name}
-        </b>
+      <!-- BARCODE -->
+      <input 
+        value="${p.barcode || ""}" 
+        placeholder="📷 Scan Barcode"
+        inputmode="numeric"
+        oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+        onkeyup="barcodeEnter(event, ${index}, this.value)"
+        onchange="updateBarcode(${index}, this.value)">
 
-        <!-- ແກ້ລາຄາ -->
-        <div contenteditable="true"
-             onblur="update(${index}, 'price', this.innerText)">
-          ฿ ${p.price} บาท
-        </div>
+      <!-- CATEGORY -->
+      <input 
+        value="${p.category || ""}" 
+        placeholder="📂 ໝວດສິນຄ້າ"
+        onchange="updateField(${index}, 'category', this.value)">
 
-        <!-- ສະແດງກີບ -->
-        <small style="color:#555;">
-          = ${kip.toLocaleString()} ກີບ
-        </small>
+      <!-- PRICE -->
+      <input 
+        type="number" 
+        value="${p.price}"
+        placeholder="ລາຄາ (ກີບ)"
+        onchange="updateField(${index}, 'price', this.value)">
 
-        <!-- ລົບ -->
-        <button onclick="removeProduct(${index})"
-          style="margin-top:auto;
-                 background:#ef4444;
-                 color:white;
-                 border:none;
-                 padding:6px;
-                 border-radius:6px;
-                 cursor:pointer;">
-          🗑 ລົບເມນູ
-        </button>
-
+      <!-- STOCK CONTROL -->
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button onclick="changeStock(${index}, -1)">➖</button>
+        <b>${remain}</b>
+        <button onclick="changeStock(${index}, 1)">➕</button>
       </div>
+
+      <small>📦 Stock ເຂົ້າ: ${p.stockIn} | 🔥 ຂາຍ: ${p.sold}</small>
+
+      <button class="btn-delete" onclick="deleteProduct(${index})">
+        🗑 ລົບສິນຄ້າ
+      </button>
     `;
+    menuBox.appendChild(div);
   });
+
+  saveProducts();
 }
 
-/* ==========================
-   บันทึกเรทเงิน
-========================== */
-function saveRate(){
-  const val = parseFloat(document.getElementById("rateInput").value);
-  if(val <= 0){
-    alert("กรุณาใส่เรทที่ถูกต้อง");
+renderManage();
+
+/* =====================
+   UPDATE FIELD
+===================== */
+function updateField(index, field, value){
+  if(field === "price"){
+    value = Number(value) || 0;
+  }
+  products[index][field] = value;
+  saveProducts();
+}
+
+/* =====================
+   STOCK + / -
+===================== */
+function changeStock(index, qty){
+  const p = products[index];
+
+  if(qty < 0 && (p.stockIn - p.sold) <= 0){
+    alert("❌ Stock ໝົດແລ້ວ");
     return;
   }
 
-  RATE_KIP = val;
-  localStorage.setItem("RATE_KIP", RATE_KIP);
-  renderManage();
-}
-
-/* ==========================
-   แก้ชื่อ / ราคา
-========================== */
-function update(index, key, value){
-  if(key === "price") {
-    value = parseFloat(value.replace(/[^\d]/g,'')) || 0;
+  if(qty > 0){
+    p.stockIn++;
+  }else{
+    p.sold++;
   }
 
-  products[index][key] = value;
-  save();
+  saveProducts();
   renderManage();
 }
 
-/* ==========================
-   เปลี่ยนรูป
-========================== */
-function changeImage(index, input){
-  const file = input.files[0];
-  if(!file) return;
+/* =====================
+   BARCODE ENTER SUPPORT
+===================== */
+function barcodeEnter(e, index, value){
+  if(e.key === "Enter"){
+    updateBarcode(index, value);
+  }
+}
 
-  const reader = new FileReader();
-  reader.onload = e => {
-    products[index].img = e.target.result;
-    save();
+/* =====================
+   UPDATE BARCODE
+===================== */
+function updateBarcode(index, value){
+  value = value.trim();
+
+  if(!value) return;
+
+  if(!/^[0-9]+$/.test(value)){
+    alert("❗ Barcode ຕ້ອງເປັນຕົວເລກ");
     renderManage();
-  };
-  reader.readAsDataURL(file);
+    return;
+  }
+
+  const duplicate = products.some((p,i)=>p.barcode === value && i !== index);
+  if(duplicate){
+    alert("❗ Barcode ນີ້ຖືກໃຊ້ແລ້ວ");
+    renderManage();
+    return;
+  }
+
+  products[index].barcode = value;
+  saveProducts();
 }
 
-/* ==========================
-   ลบเมนู
-========================== */
-function removeProduct(index){
-  if(!confirm("ຕ້ອງການລົບເມນູນີ້ບໍ?")) return;
-
+/* =====================
+   DELETE
+===================== */
+function deleteProduct(index){
+  if(!confirm("ລົບສິນຄ້ານີ້ ?")) return;
   products.splice(index,1);
-  save();
+  saveProducts();
   renderManage();
 }
 
-/* ==========================
-   บันทึก
-========================== */
-function save(){
+/* =====================
+   SAVE
+===================== */
+function saveProducts(){
   localStorage.setItem("products", JSON.stringify(products));
 }
-
-/* ==========================
-   เริ่มต้น
-========================== */
-renderManage();
 </script>
 
 </body>
